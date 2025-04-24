@@ -1,5 +1,5 @@
-import { safeDecodeURIComponent } from '@lib/util/safe-decode-uri'
-import { SearchedProducts } from 'types/global'
+import { safeDecodeURIComponent } from "@lib/util/safe-decode-uri"
+import { SearchedProducts } from "types/global"
 
 export const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 export const PUBLISHABLE_API_KEY =
@@ -21,8 +21,8 @@ type SearchParams = {
 
 export async function search({
   currency_code,
-  page,
-  order = 'relevance',
+  page = 1,
+  order = "relevance",
   category_id,
   collection,
   type,
@@ -31,13 +31,13 @@ export async function search({
   query,
 }: SearchParams): Promise<SearchedProducts> {
   const sortBy =
-    order === 'price_asc'
-      ? 'calculated_price'
-      : order === 'price_desc'
-        ? '-calculated_price'
-        : order === 'created_at'
-          ? '-created_at'
-          : order
+    order === "price_asc"
+      ? "calculated_price"
+      : order === "price_desc"
+      ? "-calculated_price"
+      : order === "created_at"
+      ? "-created_at"
+      : order
 
   const searchParams = new URLSearchParams({
     currency_code,
@@ -47,59 +47,59 @@ export async function search({
   })
 
   if (category_id) {
-    searchParams.append('category_id[]', category_id)
+    searchParams.append("category_id[]", category_id)
   }
 
   if (collection && Array.isArray(collection)) {
     collection.forEach((id) => {
-      searchParams.append('collection_id[]', id)
+      searchParams.append("collection_id[]", id)
     })
   }
 
   if (type && Array.isArray(type)) {
     type.forEach((id) => {
-      searchParams.append('type_id[]', id)
+      searchParams.append("type_id[]", id)
     })
   }
 
   if (material && Array.isArray(material)) {
     material.forEach((id) => {
-      searchParams.append('materials[]', id)
+      searchParams.append("materials[]", id)
     })
   }
 
   if (price && Array.isArray(price)) {
     price.forEach((range) => {
       switch (range) {
-        case 'under-100':
-          searchParams.append('price_to', '100')
+        case "under-100":
+          searchParams.append("price_to", "100")
           break
-        case '100-500':
-          searchParams.append('price_from', '100')
-          searchParams.append('price_to', '500')
+        case "100-500":
+          searchParams.append("price_from", "100")
+          searchParams.append("price_to", "500")
           break
-        case '501-1000':
-          searchParams.append('price_from', '501')
-          searchParams.append('price_to', '1000')
+        case "501-1000":
+          searchParams.append("price_from", "501")
+          searchParams.append("price_to", "1000")
           break
-        case 'more-than-1000':
-          searchParams.append('price_from', '1000')
+        case "more-than-1000":
+          searchParams.append("price_from", "1000")
           break
       }
     })
   }
 
   if (query) {
-    searchParams.append('q', safeDecodeURIComponent(query))
+    searchParams.append("q", safeDecodeURIComponent(query))
   }
 
   const response = await fetch(
     `${BACKEND_URL}/store/search?${searchParams.toString()}`,
     {
       headers: {
-        'x-publishable-api-key': PUBLISHABLE_API_KEY!,
+        "x-publishable-api-key": PUBLISHABLE_API_KEY!,
       },
-      cache: 'no-store',
+      cache: "no-store",
     }
   )
 
