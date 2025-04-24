@@ -1,16 +1,20 @@
-name: Medusa NextJS Template Tests
+name: Deploy to Railway
 
 on:
   push:
-    branches:
-      - master
+    branches: [main] # Adjust this to your main branch name
+
 jobs:
-    your_npm_job_name:
-        steps:
-          - uses: actions/checkout@v2
-          - uses: actions/setup-node@v2
-             with:
-              node-version: '12'
-              check-latest: true
-          - run: npm install
-          - run: npm check-rules
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        run: railway up
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
