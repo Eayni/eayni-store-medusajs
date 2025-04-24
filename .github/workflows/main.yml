@@ -2,7 +2,7 @@ name: Deploy to Railway
 
 on:
   push:
-    branches: [main] # Adjust this to your main branch name
+    branches: [master] # Adjust this to your main branch name
 
 jobs:
   deploy:
