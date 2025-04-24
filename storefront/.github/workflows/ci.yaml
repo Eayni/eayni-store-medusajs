@@ -1,6 +1,0 @@
-name: Medusa NextJS Template Tests
-
-on:
-  push:
-    branches:
-      - master
