@@ -8,15 +8,15 @@
     "medusa-storefront"
   ],
   "scripts": {
-    "wait": "await-backend",
-    "launcher": "launch-storefront",
-    "dev": "npm run wait && npm run launcher dev",
-    "build": "npm run wait && npm run launcher build",
-    "start": "npm run launcher start",
-    "build:next": "next build",
+    "dev": "next dev --turbopack -p 8000",
+    "build": "next build",
+    "start": "next start -p 8000",
     "lint": "next lint",
+    "format:write": "prettier --write .",
+    "format": "prettier --check .",
     "analyze": "ANALYZE=true next build",
-    "test-e2e": "playwright test e2e"
+    "test-e2e": "playwright test e2e",
+    "test:serial": "playwright test --workers=1"
   },
   "resolutions": {
     "webpack": "^5"
